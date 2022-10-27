@@ -1,0 +1,41 @@
+name: CI flow for Amazon ECS
+
+on: [push]
+
+env:
+  SLACK_WEBHOOK: https://hooks.slack.com/services/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
+
+jobs:
+  ci:
+    name: ci-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Unit Test
+        run: cd ${{ github.workspace }} && python test_main.py
+
+      - name: Success
+        uses: rtCamp/actions-slack-notify@v2.0.2
+        if: success()
+        env:
+          SLACE_TITLE: CI flow / success
+          SLACK_COLOR: good
+          SLACK_MESSAGE: Message for success
+
+      - name: Failure
+        uses: rtCamp/actions-slack-notify@v2.0.2
+        if: failure()
+        env:
+          SLACE_TITLE: CI flow / failure
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: Message for failure
+
+      - name: Cancel
+        uses: rtCamp/actions-slack-notify@v2.0.2
+        if: cancelled()
+    env:
+      SLACE_TITLE: CI flow / cancel
+      SLACK_COLOR: danger
+      SLACK_MESSAGE: Message for cancel
