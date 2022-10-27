@@ -1,3 +1,4 @@
+import random
 import sys
 
 
@@ -25,7 +26,7 @@ def minimum(numbers):
   return tmp
 
 if __name__ == "__main__":
-  nums = [10, 54, 22, 43, 86, 45, 12]
+  nums = [random.randint(-100, 100) for _ in range(12)]
   main()
   print("Numbers:", nums)
   print("Max:", maximum(nums))
