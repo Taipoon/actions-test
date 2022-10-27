@@ -39,10 +39,12 @@ jobs:
         uses: actions/setup-go@v3
         with:
          go-version: "1.19"
-
+      
+      - name: Listen And Serve 8081 port
+        run: go run main.go
+        
       - name: Run Unit Test
         run: go test -v ./...
 
       - name: Execute Select Query
         run: mysql --protocol=tcp -h localhost -P 13306 -u root -ppassword -e "SELECT * FROM hakaru.eventlog"
-        
