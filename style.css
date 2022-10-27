@@ -1,0 +1,12 @@
+:root {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: bisque;
+}
+
+h1 {
+  font-size: 1.3rem;
+}
