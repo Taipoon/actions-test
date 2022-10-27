@@ -18,6 +18,8 @@ class TestMain(unittest.TestCase):
     # 26 / 7
     self.assertEqual(val, 26 / 7)
 
+  def test_failure(self):
+    self.assertEqual(1, 2)
 
 if __name__ == "__main__":
   unittest.main()
