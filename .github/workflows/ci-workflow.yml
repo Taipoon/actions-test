@@ -23,7 +23,7 @@ jobs:
         run: cd ${{ github.workspace }} && python test_main.py
 
       - name: Success
-        uses: rtCamp/actions-slack-notify@v2.0.2
+        uses: rtCamp/action-slack-notify@v2.0.2
         if: success()
         env:
           SLACE_TITLE: CI flow / success
@@ -31,7 +31,7 @@ jobs:
           SLACK_MESSAGE: Message for success
 
       - name: Failure
-        uses: rtCamp/actions-slack-notify@v2.0.2
+        uses: rtCamp/action-slack-notify@v2.0.2
         if: failure()
         env:
           SLACE_TITLE: CI flow / failure
@@ -39,7 +39,7 @@ jobs:
           SLACK_MESSAGE: Message for failure
 
       - name: Cancel
-        uses: rtCamp/actions-slack-notify@v2.0.2
+        uses: rtCamp/action-slack-notify@v2.0.2
         if: cancelled()
     env:
       SLACE_TITLE: CI flow / cancel
