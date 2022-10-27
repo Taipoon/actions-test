@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: hakaru
+      MYSQL_USER: hakaru
+      MYSQL_PASSWORD: password

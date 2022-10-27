@@ -1,0 +1,33 @@
+name: sunrise2022-d-unittest
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+jobs:
+  job-with-mysql-8_0:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:5.7
+        ports:
+          - 13306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: hakaru
+          MYSQL_USER: hakaru
+          MYSQL_PASSWORD: password
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Show Docker containers
+        run: docker ps -a
+
+      - name: Show databases for root user
+        run: mysql --protocol=tcp -h localhost -P 13306 -u root -ppassword -e "SHOW DATABASES"
