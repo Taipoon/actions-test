@@ -45,18 +45,20 @@ func main() {
 }
 
 func hakaruHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	tx, err := db.BeginTx(ctx, nil)
+
 	// Retrieve get parameters and create insert query
-
-	// コミットする前にデータ取ってる
-
 	name := r.URL.Query().Get("name")
 	value := r.URL.Query().Get("value")
 	log.Println(name, value)
 	// Execute query
-	_, err = db.Exec("INSERT INTO `eventlog` (`at`, `name`, `value`) VALUES (NOW(), ?, ?)", name, value)
+	_, err = db.ExecContext(ctx, "INSERT INTO `eventlog` (`at`, `name`, `value`) VALUES (NOW(), ?, ?)", name, value)
 	if err != nil {
+		tx.Rollback()
 		log.Println(err)
 	}
+	tx.Commit()
 	/*
 		origin := r.Header.Get("Origin")
 		if origin != "" {

@@ -14,51 +14,51 @@ var db *sql.DB
 
 type Record struct {
 	ID    int
-	At    string
+	At    interface{}
 	Name  string
 	Value int
 }
 
 func TestHakaruHandler(t *testing.T) {
-	endpoint := "http://127.0.0.1:8081/"
-	p := "hakaru"
 
-	u, err := url.Parse(endpoint)
-	if err != nil {
-		t.Error("URLが正しくありません:", err, endpoint)
-	}
-	u.Path = path.Join(u.Path, p)
+	t.Run("データベースにデータを登録できる", func(t *testing.T) {
+		endpoint := "http://127.0.0.1:8081/"
+		p := "hakaru"
 
-	q := u.Query()
-	q.Set("name", "GoUniteTest")
-	q.Set("value", strconv.Itoa(1))
-	u.RawQuery = q.Encode()
-
-	req, err := http.Get(u.String())
-	if err != nil {
-		t.Error("HTTP GETリクエストの送信に失敗しました:", err)
-	}
-	defer req.Body.Close()
-
-	// TODO コミットしてから取ったほうがいい
-	/*
-		row := db.QueryRow("SELECT `id`, `at`, `name`, `value` FROM `eventlog` WHERE `name` = ?", "GoUnitTest")
-
-		record := Record{}
-		err = row.Scan(&record.ID, &record.At, &record.Name, &record.Value)
+		u, err := url.Parse(endpoint)
 		if err != nil {
-			if errors.Is(err, sql.ErrNoRows) {
-				t.Error("レコードが存在しません:", err)
-			}
-			t.Error("クエリの取得に失敗しました:", err)
+			t.Error("URLが正しくありません:", err, endpoint)
 		}
-		log.Println("データ挿入日時:", record.At)
+		u.Path = path.Join(u.Path, p)
+
+		q := u.Query()
+		q.Set("name", "GoUnitTest")
+		q.Set("value", strconv.Itoa(1))
+		u.RawQuery = q.Encode()
+
+		req, err := http.Get(u.String())
+		if err != nil {
+			t.Error("HTTP GETリクエストの送信に失敗しました:", err)
+		}
+		defer req.Body.Close()
+	})
+
+	t.Run("データベースから登録したデータを取得できる", func(t *testing.T) {
+		record := Record{}
+		row := db.QueryRow("SELECT `id`, `at`, `name`, `value` FROM `eventlog` WHERE `id` = 1")
+
+		err := row.Scan(&record.ID, &record.At, &record.Name, &record.Value)
+		if err != nil {
+			t.Error("データ取得に失敗しました:", err)
+		}
+
 		if !(record.ID == 1 &&
 			record.Name == "GoUnitTest" &&
 			record.Value == 1) {
-			t.Error("期待した値と異なります")
+			t.Error("期待していた値と異なります")
 		}
-	*/
+
+	})
 
 }
 
