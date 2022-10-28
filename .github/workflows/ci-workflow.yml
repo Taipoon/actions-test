@@ -8,7 +8,7 @@ on:
     branches:
       - "main"
 jobs:
-  job-with-mysql-8_0:
+  mysql-5_7:
     runs-on: ubuntu-latest
     services:
       db:
@@ -29,12 +29,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Show Docker containers
-        run: docker ps -a
-
       - name: Show databases for root user
         run: mysql --protocol=tcp -h localhost -P 13306 -u root -ppassword -e "SHOW DATABASES"
 
+      - name: Execute Select Query
+        run: mysql --protocol=tcp -h localhost -P 13306 -u root -ppassword -e "SELECT * FROM hakaru.eventlog"
+  
+  golang-1_19:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
       - name: Setup Golang
         uses: actions/setup-go@v3
         with:
@@ -45,6 +51,3 @@ jobs:
         
       - name: Run Unit Test
         run: go test -v ./...
-
-      - name: Execute Select Query
-        run: mysql --protocol=tcp -h localhost -P 13306 -u root -ppassword -e "SELECT * FROM hakaru.eventlog"
