@@ -7,12 +7,12 @@ on:
   pull_request:
     branches:
       - "*"
+env: 
+  env_var: ${{ vars.ENV_CONTECT_VAR }}
 jobs:
   print_vars:
     runs-on: ubuntu-latest
-    env:
-      SOME_KEY_REF: "${{ vars.SOME_KEY }}"
     steps:
       - name: Print GitHub context
         run: |
-          echo "${{ env.SOME_KEY_REF }}"
+          echo "${{ env.env_var }}"
