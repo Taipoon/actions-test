@@ -8,11 +8,11 @@ on:
     branches:
       - "*"
 env: 
-  env_var: ${{ vars.ENV_CONTECT_VAR }}
+  some_key: ${{ vars.SOME_KEY }}
 jobs:
   print_vars:
     runs-on: ubuntu-latest
     steps:
       - name: Print GitHub context
         run: |
-          echo "${{ env.env_var }}"
+          echo "${{ env.some_key }}"
