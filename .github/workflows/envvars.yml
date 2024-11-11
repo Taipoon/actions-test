@@ -1,0 +1,25 @@
+name: Show variables
+
+on:
+  # workflow_dispatch:
+  #   inputs:
+  #     deployment_target:
+  #       description: 'Deployment target'
+  #       required: true
+  #       default: 'development'
+  #       type: choice
+  #       options:
+  #       - development
+  #       - staging
+  #       - production
+  push:
+    branches:
+      - "*"
+
+jobs:
+  display-variables:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Use variables
+      run: |
+        echo "Repository Sample Key : ${{ vars.REPOSITORY_SAMPLE_KEY }}"
