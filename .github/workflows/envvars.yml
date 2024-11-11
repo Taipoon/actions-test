@@ -10,7 +10,9 @@ on:
 jobs:
   print_vars:
     runs-on: ubuntu-latest
+    env:
+      SOME_KEY_REF: "${{ vars.SOME_KEY }}"
     steps:
       - name: Print GitHub context
         run: |
-          echo "${{ env.SOME_KEY }}"
+          echo "${{ env.SOME_KEY_REF }}"
