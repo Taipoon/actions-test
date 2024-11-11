@@ -1,18 +1,25 @@
-name: test-env-vars
+name: Show variables
 
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - "*"
-env: 
-  some_key: ${{ vars.SOME_KEY }}
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: 'Deployment target'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+        - development
+        - staging
+        - production
+
 jobs:
-  print_vars:
+  display-variables:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.deployment_target }}
     steps:
-      - name: Print GitHub context
-        run: |
-          echo "${{ env.some_key }}"
+    - name: Use variables
+      run: |
+        echo "Organization variable : ${{ vars.ORG_NAME }}"
+        echo "Repository variable : ${{ vars.PLATFORM_VERSION }}"
+        echo "Environment variable : ${{ vars.SERVICE_URL }}"
