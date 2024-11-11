@@ -1,17 +1,20 @@
 name: Show variables
 
 on:
-  workflow_dispatch:
-    inputs:
-      deployment_target:
-        description: 'Deployment target'
-        required: true
-        default: 'development'
-        type: choice
-        options:
-        - development
-        - staging
-        - production
+  # workflow_dispatch:
+  #   inputs:
+  #     deployment_target:
+  #       description: 'Deployment target'
+  #       required: true
+  #       default: 'development'
+  #       type: choice
+  #       options:
+  #       - development
+  #       - staging
+  #       - production
+  push:
+    branches:
+      - "*"
 
 jobs:
   display-variables:
