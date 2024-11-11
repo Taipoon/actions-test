@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: Print GitHub context
         run: |
-          echo "${{ vars.SOME_KEY }}"
+          echo "${{ env.SOME_KEY }}"
